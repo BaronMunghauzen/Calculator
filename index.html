@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html lang="ru">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Calculator</title>
+    <link rel="icon" href="/img/calculator-ico.png" type="image/png">
+    <link rel="stylesheet" href="/css/normalize.css">
+    <link rel="stylesheet" href="css/font-awesome.min.css">
+    <link rel="stylesheet" href="/css/style.css" id="web_theme">
+</head>
+
+<body>
+    <main>
+        <div class="selects">
+            <div>
+                <p>Тема:</p>
+                <select name="theme" id="theme">
+                    <option value="light" selected>Светлая</option>
+                    <option value="dark">Тёмная</option>
+                    <option value="forest">Лес</option>
+                    <option value="field">Поле</option>
+                </select>
+            </div>
+            <div>
+                <p>Тип калькулятора:</p>
+                <select name="type" id="type" class="calc_type">
+                    <option value="usual">Простой</option>
+                    <option value="hard">Сложный</option>
+                </select>
+            </div>
+        </div>
+
+        <div class="container">
+            <table class="usual">
+                <caption>Простой калькулятор</caption>
+                <tr>
+                    <td colspan="5" class="calc simple_history_block">
+                        <div id="usual_simpleHistory" class="simpleHistory presented"></div>
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="5" class="calc">
+                        <input id="usual_input" type="text" class="result presented" disabled value="" data-info="new">
+                    </td>
+                </tr>
+                <tr>
+                    <td><button class="calc text_btn simple" value="7">7</button></td>
+                    <td><button class="calc text_btn simple" value="8">8</button></td>
+                    <td><button class="calc text_btn simple" value="9">9</button></td>
+                    <td colspan="2"><button class="calc backspace"><i class="fa fa-arrow-left"
+                                aria-hidden="true"></i></button></td>
+                </tr>
+                <tr>
+                    <td><button class="calc text_btn simple" value="4">4</button></td>
+                    <td><button class="calc text_btn simple" value="5">5</button></td>
+                    <td><button class="calc text_btn simple" value="6">6</button></td>
+                    <td><button class="calc text_btn math_symbol" value="+">+</button></td>
+                    <td><button class="calc text_btn math_symbol" value="*">×</button></td>
+                </tr>
+                <tr>
+                    <td><button class="calc text_btn simple" value="1">1</button></td>
+                    <td><button class="calc text_btn simple" value="2">2</button></td>
+                    <td><button class="calc text_btn simple" value="3">3</button></td>
+                    <td><button class="calc text_btn math_symbol" value="-">−</button></td>
+                    <td><button class="calc special math_symbol" value='/'>÷</button></td>
+                </tr>
+                <tr>
+                    <td><button class="calc text_btn reset">C</button></td>
+                    <td><button class="calc text_btn simple" value="0">0</button></td>
+                    <td><button class="calc text_btn math_symbol" value=".">&#183;</button></td>
+                    <td colspan="2"><button class="calc special equal">=</button></td>
+                </tr>
+            </table>
+
+
+            <table class="hard">
+                <caption>Сложный калькулятор</caption>
+                <tr>
+                    <td colspan="6" class="calc simple_history_block">
+                        <div id="hard_simpleHistory" class="simpleHistory"></div>
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="6" class="calc">
+                        <input id="hard_input" type="text" class="result" disabled value="" data-info="new">
+                    </td>
+                </tr>
+                <tr>
+                    <td><button class="calc text_btn simple" value="7">7</button></td>
+                    <td><button class="calc text_btn simple" value="8">8</button></td>
+                    <td><button class="calc text_btn simple" value="9">9</button></td>
+                    <td><button class="calc text_btn scrt simple" value="Math.sqrt(">√</button></td>
+                    <td colspan="2"><button class="calc backspace"><i class="fa fa-arrow-left"
+                                aria-hidden="true"></i></button></td>
+                </tr>
+                <tr>
+                    <td><button class="calc text_btn simple" value="4">4</button></td>
+                    <td><button class="calc text_btn simple" value="5">5</button></td>
+                    <td><button class="calc text_btn simple" value="6">6</button></td>
+                    <td><button class="calc text_btn math_symbol" value="**2">x&sup2;</button></td>
+                    <td><button class="calc text_btn math_symbol" value="+">+</button></td>
+                    <td><button class="calc text_btn math_symbol" value="*">×</button></td>
+                </tr>
+                <tr>
+                    <td><button class="calc text_btn simple" value="1">1</button></td>
+                    <td><button class="calc text_btn simple" value="2">2</button></td>
+                    <td><button class="calc text_btn simple" value="3">3</button></td>
+                    <td><button class="calc text_btn simple" value="(">(</button></td>
+                    <td><button class="calc text_btn math_symbol" value="-">−</button></td>
+                    <td><button class="calc special math_symbol" value='/'>÷</button></td>
+                </tr>
+                <tr>
+                    <td><button class="calc text_btn reset">C</button></td>
+                    <td><button class="calc text_btn simple" value="0">0</button></td>
+                    <td><button class="calc text_btn math_symbol" value=".">&#183;</button></td>
+                    <td><button class="calc text_btn simple" value=")">)</button></td>
+                    <td colspan="2"><button class="calc special equal">=</button></td>
+                </tr>
+            </table>
+        </div>
+        <div class="container_bigHistory">
+            <ul id="bigHistory">
+            </ul>
+        </div>
+    </main>
+
+    <script>
+        let theme = document.getElementById('theme')
+        let calculator = document.querySelector('.container')
+        let count_history = 0
+
+
+        switch (localStorage.getItem('theme')) {
+            case 'light':
+                web_theme.setAttribute('href', '/css/style.css');
+                theme.value = localStorage.getItem('theme')
+                break;
+            case 'dark':
+                web_theme.setAttribute('href', '/css/dark_theme.css');
+                theme.value = localStorage.getItem('theme')
+                break
+        }
+
+        calculator.onclick = function (e) {
+            let input = what_input();
+            let simpleHistory = what_history()
+
+            if (e.target.classList.contains('simple')) {
+                if (input.getAttribute('data-info') == 'old' & !isLastSymbol(input.value)) {
+                    input.value = ''
+                    simpleHistory.innerHTML = ''
+                    input.setAttribute('data-info', 'new')
+                    input.value += e.target.value
+                }
+                else {
+                    input.setAttribute('data-info', 'new')
+                    input.value += e.target.value
+                }
+            }
+            if (e.target.classList.contains('math_symbol')) {
+                if (!isLastSymbol(input.value)) {
+                    input.value += e.target.value
+                }
+            }
+            if (e.target.classList.contains('backspace')) {
+                input.value = input.value.slice(0, -1)
+            }
+            if (e.target.classList.contains('reset')) {
+                clear_simple_history(input.value, simpleHistory)
+                input.value = ''
+            }
+            if (e.target.classList.contains('equal')) {
+                input.setAttribute('data-info', 'old')
+                simpleHistory.innerHTML = input.value + ' ='
+                input.value = eval(input.value)
+                big_history(simpleHistory.innerHTML, input.value)
+            }
+
+        }
+
+        function what_input() {
+            let inputs = document.querySelectorAll('input')
+            for (let i = 0; i < inputs.length; i++) {
+                if (inputs[i].classList.contains('presented')) {
+                    return inputs[i]
+                }
+            }
+        }
+        function what_history() {
+            let divs = document.querySelectorAll('.simpleHistory')
+            for (let i = 0; i < divs.length; i++) {
+                if (divs[i].classList.contains('presented')) {
+                    return divs[i]
+                }
+            }
+        }
+
+
+        function isLastSymbol(input_elem) {
+            let last_char = input_elem.slice(-1)
+            if (last_char == '+' || last_char == '-' || last_char == '*' || last_char == '/' || last_char == '.' || last_char == '' || last_char == '(' || last_char == '**2') {
+                return true
+            }
+            else {
+                return false
+            }
+        }
+
+
+        function clear_simple_history(str, container) {
+            container.innerHTML = ''
+        }
+
+        function big_history(str1, str2) {
+            bigHistory.insertAdjacentHTML('afterBegin', `<li>${str1} ${str2}</li>`);
+            count_history += 1
+            if (count_history > 6) {
+                let last_child = document.querySelector('li:last-child')
+                bigHistory.removeChild(last_child)
+            }
+        }
+
+
+        document.querySelector('.calc_type').onchange = function (e) {
+            if (document.querySelector('.calc_type').value == 'usual') {
+                document.querySelector('table.hard').classList.remove('hard_show')
+                document.querySelector('table.usual').classList.remove('usual_show')
+                document.getElementById('usual_input').classList.add('presented')
+                document.getElementById('hard_input').classList.remove('presented')
+                document.getElementById('usual_simpleHistory').classList.add('presented')
+                document.getElementById('hard_simpleHistory').classList.remove('presented')
+            }
+            if (document.querySelector('.calc_type').value == 'hard') {
+                document.querySelector('table.usual').classList.add('usual_show')
+                document.querySelector('table.hard').classList.add('hard_show')
+                document.getElementById('hard_input').classList.add('presented')
+                document.getElementById('usual_input').classList.remove('presented')
+                document.getElementById('hard_simpleHistory').classList.add('presented')
+                document.getElementById('usual_simpleHistory').classList.remove('presented')
+            }
+        }
+
+        theme.onchange = function (e) {
+            switch (theme.value) {
+                case 'light':
+                    localStorage.setItem('theme', 'light')
+                    web_theme.setAttribute('href', '/css/style.css');
+                    break;
+                case 'dark':
+                    localStorage.setItem('theme', 'dark')
+                    web_theme.setAttribute('href', '/css/dark_theme.css');
+                    break
+            }
+        }
+    </script>
+</body>
+
+</html>
