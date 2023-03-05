@@ -135,11 +135,11 @@
 
         switch (localStorage.getItem('theme')) {
             case 'light':
-                web_theme.setAttribute('href', '/css/style.css');
+                web_theme.setAttribute('href', 'css/style.css');
                 theme.value = localStorage.getItem('theme')
                 break;
             case 'dark':
-                web_theme.setAttribute('href', '/css/dark_theme.css');
+                web_theme.setAttribute('href', 'css/dark_theme.css');
                 theme.value = localStorage.getItem('theme')
                 break
         }
@@ -247,11 +247,11 @@
             switch (theme.value) {
                 case 'light':
                     localStorage.setItem('theme', 'light')
-                    web_theme.setAttribute('href', '/css/style.css');
+                    web_theme.setAttribute('href', 'css/style.css');
                     break;
                 case 'dark':
                     localStorage.setItem('theme', 'dark')
-                    web_theme.setAttribute('href', '/css/dark_theme.css');
+                    web_theme.setAttribute('href', 'css/dark_theme.css');
                     break
             }
         }
